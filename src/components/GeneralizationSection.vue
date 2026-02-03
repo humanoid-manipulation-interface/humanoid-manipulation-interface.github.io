@@ -159,7 +159,7 @@ const cycleEnv = (direction: 1 | -1) => {
                  <div class="bg-black video-wrapper">
                       <video
                         v-if="env.videos[videoIndices[index] || 0]"
-                        :src="getUrl(env.folder, env.videos[videoIndices[index] || 0].file)"
+                        :src="getUrl(env.folder, env.videos[videoIndices[index] || 0]?.file || '')"
                         controls
                       :autoplay="index === activeEnvIndex"
                       muted

@@ -68,7 +68,10 @@ const nextVideo = (index: number) => {
   if (currentIndex === -1) return
 
   const nextIndex = (currentIndex + 1) % cap.videos.length
-  selections.value[index] = cap.videos[nextIndex]
+  const nextVid = cap.videos[nextIndex]
+  if (nextVid) {
+    selections.value[index] = nextVid
+  }
 }
 </script>
 
