@@ -70,7 +70,11 @@ const getUrl = (folder: string, file: string) => {
 
 const nextVideo = (envIndex: number) => {
   const env = environments[envIndex]
-  videoIndices.value[envIndex] = (videoIndices.value[envIndex] + 1) % env.videos.length
+  const currentIndex = videoIndices.value[envIndex]
+  
+  if (!env || currentIndex === undefined) return
+
+  videoIndices.value[envIndex] = (currentIndex + 1) % env.videos.length
 }
 
 const setActiveEnv = (index: number) => {
@@ -153,10 +157,10 @@ const cycleEnv = (direction: 1 | -1) => {
             >
               <v-card class="rounded-lg overflow-hidden" elevation="10" v-if="true">
                  <div class="bg-black video-wrapper">
-                    <video
-                      :key="`${env.folder}-${videoIndices[index]}`"
-                      :src="getUrl(env.folder, env.videos[videoIndices[index]].file)"
-                      :controls="index === activeEnvIndex"
+                      <video
+                        v-if="env.videos[videoIndices[index] || 0]"
+                        :src="getUrl(env.folder, env.videos[videoIndices[index] || 0].file)"
+                        controls
                       :autoplay="index === activeEnvIndex"
                       muted
                       loop

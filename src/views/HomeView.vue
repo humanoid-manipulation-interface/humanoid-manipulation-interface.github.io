@@ -18,7 +18,9 @@ onMounted(() => {
   if (triggerEl) {
     const navObserver = new IntersectionObserver((entries) => {
       // If trigger is NOT intersecting (scrolled past it), nav is visible
-      isNavVisible.value = !entries[0].isIntersecting
+      if (entries[0]) {
+        isNavVisible.value = !entries[0].isIntersecting
+      }
     }, {
       threshold: 0
     })
@@ -39,8 +41,9 @@ onMounted(() => {
     let mostVisibleId = ''
     
     for (const id in sectionRatios) {
-        if (sectionRatios[id] > maxRatio) {
-            maxRatio = sectionRatios[id]
+        const ratio = sectionRatios[id]
+        if (ratio !== undefined && ratio > maxRatio) {
+            maxRatio = ratio
             mostVisibleId = id
         }
     }

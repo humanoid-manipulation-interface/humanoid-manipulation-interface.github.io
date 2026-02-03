@@ -59,9 +59,14 @@ const getSelectedFile = (index: number) => {
 }
 
 const nextVideo = (index: number) => {
-  const cap = capabilities[index]
   const currentVideo = selections.value[index]
+  const cap = capabilities[index]
+  
+  if (!currentVideo || !cap) return
+
   const currentIndex = cap.videos.findIndex(v => v.file === currentVideo.file)
+  if (currentIndex === -1) return
+
   const nextIndex = (currentIndex + 1) % cap.videos.length
   selections.value[index] = cap.videos[nextIndex]
 }
