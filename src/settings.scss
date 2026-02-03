@@ -1,0 +1,20 @@
+@forward 'vuetify/settings' with (
+  $body-font-family: (
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    Arial,
+    sans-serif
+  ),
+  $heading-font-family: (
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    Arial,
+    sans-serif
+  )
+);
