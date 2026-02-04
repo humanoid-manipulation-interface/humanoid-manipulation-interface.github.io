@@ -8,6 +8,7 @@ import GeneralizationSection from '@/components/GeneralizationSection.vue'
 import DataCollectionSection from '@/components/DataCollectionSection.vue'
 
 const videoSrc = `${import.meta.env.BASE_URL}teaser.mp4`
+const teaserImgSrc = `${import.meta.env.BASE_URL}teaser.png`
 
 const activeSection = ref('hero')
 const isNavVisible = ref(false)
@@ -220,10 +221,39 @@ const scrollTo = (id: string) => {
         </div>
       </v-container>
     </v-sheet>
+
+    <v-sheet class="panel teaser-image-section pb-16" rounded="0">
+      <v-container class="d-flex justify-center pt-0">
+        <v-img
+          :src="teaserImgSrc"
+          alt="HuMI Teaser"
+          elevation="0"
+          class="rounded-lg teaser-img"
+          eager
+          cover
+        ></v-img>
+      </v-container>
+    </v-sheet>
   </div>
 </template>
 
 <style scoped>
+.teaser-image-section {
+  background-color: var(--color-background);
+}
+
+.teaser-img {
+  width: min(65vw, 82ch) !important;
+  /* Ensure resizing behaves */
+  flex: 0 0 auto;
+}
+
+@media (max-width: 600px) {
+  .teaser-img {
+    width: 95vw !important;
+  }
+}
+
 .scrollRoot {
   width: 100%;
   overflow-x: hidden;
@@ -379,8 +409,8 @@ const scrollTo = (id: string) => {
 }
 
 .abstractInner {
-  padding-top: 2rem;
-  padding-bottom: 6rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;

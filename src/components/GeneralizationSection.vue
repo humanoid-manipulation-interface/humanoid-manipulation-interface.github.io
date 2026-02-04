@@ -154,7 +154,7 @@ const cycleEnv = (direction: 1 | -1) => {
 
 <template>
   <v-sheet class="panel generalization" rounded="0">
-    <v-container class="pb-16" style="max-width: 1200px; padding-top: clamp(1rem, 3vw, 2.5rem);">
+    <v-container class="pb-16" style="max-width: 1200px; padding-top: clamp(0.5rem, 2.5vw, 2rem);">
       <v-row class="w-100 flex-column align-center" justify="center">
         <v-col cols="12" class="text-center mb-4">
            <div class="sectionTitle font-weight-bold">In-the-Wild Generalization</div>
