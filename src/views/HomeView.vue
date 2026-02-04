@@ -28,32 +28,14 @@ onMounted(() => {
   }
 
   // 2. Active Section Highlighting
-  const sectionRatios: Record<string, number> = {}
-  
   const sectionObserver = new IntersectionObserver((entries) => {
-    // Update ratios for changed entries
     entries.forEach((entry) => {
-       sectionRatios[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0
+      if (entry.isIntersecting) {
+        activeSection.value = entry.target.id
+      }
     })
-
-    // Find the section with the highest ratio among ALL tracked sections
-    let maxRatio = 0
-    let mostVisibleId = ''
-    
-    for (const id in sectionRatios) {
-        const ratio = sectionRatios[id]
-        if (ratio !== undefined && ratio > maxRatio) {
-            maxRatio = ratio
-            mostVisibleId = id
-        }
-    }
-    
-    if (mostVisibleId) {
-       activeSection.value = mostVisibleId
-    }
   }, {
-    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-    rootMargin: '-10% 0px -10% 0px' 
+    rootMargin: '-45% 0px -45% 0px'
   })
 
   const sections = ['hero', 'capabilities', 'generalization', 'data-collection', 'abstract']
@@ -397,7 +379,7 @@ const scrollTo = (id: string) => {
 }
 
 .abstractInner {
-  padding-top: 4rem;
+  padding-top: 2rem;
   padding-bottom: 6rem;
   display: flex;
   flex-direction: column;
