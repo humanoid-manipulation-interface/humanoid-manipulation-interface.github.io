@@ -72,7 +72,7 @@ type Author = {
 }
 
 const authors: Author[] = [
-  { key: 'ruiqian-nai', name: 'Ruiqian Nai', starred: true, href: 'https://richard-coder-nai.github.io/' },
+  { key: 'ruiqian-nai', name: 'Ruiqian Nai', starred: true, href: 'https://ruiqiannai.github.io/' },
   { key: 'boyuan-zheng', name: 'Boyuan Zheng', starred: true },
   { key: 'junming-zhao', name: 'Junming Zhao', starred: true },
   { key: 'haodong-zhu', name: 'Haodong Zhu' },
