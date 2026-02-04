@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 type Video = {
   file: string
@@ -63,6 +63,22 @@ const environments: Environment[] = [
 
 const activeEnvIndex = ref(0)
 const videoIndices = ref(environments.map(() => 0))
+const videoRefs = ref<(HTMLVideoElement | null)[]>([])
+
+const setVideoRef = (el: any, index: number) => {
+  if (el) videoRefs.value[index] = el as HTMLVideoElement
+}
+
+watch(activeEnvIndex, (newIndex) => {
+  videoRefs.value.forEach((vid, idx) => {
+    if (!vid) return
+    if (idx === newIndex) {
+      vid.play().catch(() => {})
+    } else {
+      vid.pause()
+    }
+  })
+})
 
 const getUrl = (folder: string, file: string) => {
   return `${import.meta.env.BASE_URL}generalization/${folder}/${file}`
@@ -159,6 +175,7 @@ const cycleEnv = (direction: 1 | -1) => {
                  <div class="bg-black video-wrapper">
                       <video
                         v-if="env.videos[videoIndices[index] || 0]"
+                        :ref="(el) => setVideoRef(el, index)"
                         :src="getUrl(env.folder, env.videos[videoIndices[index] || 0]?.file || '')"
                         controls
                       :autoplay="index === activeEnvIndex"

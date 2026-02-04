@@ -268,7 +268,7 @@ const scrollTo = (id: string) => {
 
 .heroHeadline {
   max-width: 100%;
-  color: rgba(255, 255, 255, 0.95);
+  color: #ffffff;
   font-size: clamp(5.5rem, 13vw, 11rem);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -278,7 +278,7 @@ const scrollTo = (id: string) => {
 .heroSubtitle {
   max-width: 100%;
   margin: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: #ffffff;
   font-size: clamp(1.5rem, 2.8vw, 2.6rem) !important;
   line-height: 1.25;
 }
@@ -286,7 +286,7 @@ const scrollTo = (id: string) => {
 .heroAuthors {
   width: 70%;
   margin-top: 1.25rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   font-size: clamp(1rem, 1.6vw, 1.35rem);
   line-height: 1.35;
 }
@@ -328,7 +328,7 @@ const scrollTo = (id: string) => {
 
 .heroFootnote {
   margin-top: 0.25rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.9);
   font-size: clamp(0.85rem, 1.2vw, 1rem);
   line-height: 1.3;
 }
