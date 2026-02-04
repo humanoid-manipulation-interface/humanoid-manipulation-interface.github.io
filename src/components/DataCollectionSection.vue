@@ -5,7 +5,7 @@ const getUrl = (file: string) => {
 </script>
 
 <template>
-  <v-sheet class="panel data-collection bg-grey-lighten-4" rounded="0">
+  <v-sheet class="panel data-collection" rounded="0">
     <v-container class="fill-height pb-16" style="max-width: 1200px; padding-top: clamp(1rem, 3vw, 2.5rem);">
       <v-row class="w-100 flex-column align-center" justify="center">
         <v-col cols="12" class="text-center mb-8">
@@ -68,11 +68,20 @@ const getUrl = (file: string) => {
 <style scoped>
 .panel {
   width: 100%;
+  background-color: var(--color-background);
 }
 
 .sectionTitle {
   text-align: center;
   width: 100%;
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
+}
+
+@media (prefers-color-scheme: dark) {
+  .v-card {
+    background-color: var(--vt-c-black-soft) !important;
+    color: var(--color-text) !important;
+  }
 }
 </style>

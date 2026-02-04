@@ -268,7 +268,7 @@ const scrollTo = (id: string) => {
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .heroContent {
@@ -393,6 +393,7 @@ const scrollTo = (id: string) => {
 
 .abstract {
   background: var(--color-background);
+  color: var(--color-text);
 }
 
 .abstractInner {
@@ -407,6 +408,7 @@ const scrollTo = (id: string) => {
   text-align: center;
   width: 100%;
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
 }
 
 .abstractText {
@@ -420,6 +422,7 @@ const scrollTo = (id: string) => {
   font-size: clamp(1.05rem, 1.25vw, 1.25rem);
   line-height: 1.7;
   opacity: 0.92;
+  color: var(--color-text);
 }
 
 @media (max-width: 600px) {
@@ -487,6 +490,23 @@ const scrollTo = (id: string) => {
   background-color: #000;
   transform: scale(1.4);
   border-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-text {
+    color: var(--vt-c-text-dark-1);
+    text-shadow: 0 0 4px var(--color-background);
+  }
+  
+  .nav-dot {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .nav-item:hover .nav-dot,
+  .nav-item.active .nav-dot {
+    background-color: #fff;
+  }
 }
 
 .fade-enter-active,

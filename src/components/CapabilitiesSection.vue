@@ -76,7 +76,7 @@ const nextVideo = (index: number) => {
 </script>
 
 <template>
-  <v-sheet class="panel capabilities bg-grey-lighten-4" rounded="0">
+  <v-sheet class="panel capabilities" rounded="0">
     <v-container class="fill-height pb-8" style="max-width: 1200px; padding-top: clamp(2rem, 5vw, 4rem);">
       <v-row class="w-100" justify="center">
         <v-col cols="12" class="text-center mb-2">
@@ -132,13 +132,14 @@ const nextVideo = (index: number) => {
 .panel {
   width: 100%;
   /* Ensure background matches or contrasts nicely */
-  background-color: rgb(var(--v-theme-surface));
+  background-color: var(--color-background);
 }
 
 .sectionTitle {
   text-align: center;
   width: 100%;
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
 }
 
 .capabilities {
@@ -151,6 +152,13 @@ const nextVideo = (index: number) => {
   .panel {
     height: auto; /* Allow growth on mobile */
     min-height: 100vh;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .v-card {
+    background-color: var(--vt-c-black-soft) !important;
+    color: var(--color-text) !important;
   }
 }
 </style>

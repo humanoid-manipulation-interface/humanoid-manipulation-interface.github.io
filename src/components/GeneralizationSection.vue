@@ -137,7 +137,7 @@ const cycleEnv = (direction: 1 | -1) => {
 </script>
 
 <template>
-  <v-sheet class="panel generalization bg-grey-lighten-4" rounded="0">
+  <v-sheet class="panel generalization" rounded="0">
     <v-container class="pb-16" style="max-width: 1200px; padding-top: clamp(1rem, 3vw, 2.5rem);">
       <v-row class="w-100 flex-column align-center" justify="center">
         <v-col cols="12" class="text-center mb-4">
@@ -171,7 +171,7 @@ const cycleEnv = (direction: 1 | -1) => {
                  </div>
                  
                  <!-- Content only visible for active card to reduce clutter -->
-                 <div class="pa-4 bg-white d-flex align-center justify-space-between">
+                 <div class="pa-4 content-area d-flex align-center justify-space-between">
                     <div class="text-subtitle-1 font-weight-medium text-left text-truncate">{{ env.name }}</div>
                     
                     <v-btn
@@ -213,12 +213,29 @@ const cycleEnv = (direction: 1 | -1) => {
 <style scoped>
 .panel {
   width: 100%;
+  background-color: var(--color-background);
 }
 
 .sectionTitle {
   text-align: center;
   width: 100%;
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
+}
+
+.content-area {
+  background-color: white;
+  color: var(--color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .v-card {
+    background-color: var(--vt-c-black-soft) !important;
+  }
+  .content-area {
+    background-color: var(--vt-c-black-soft) !important;
+    color: var(--color-text) !important;
+  }
 }
 
 /* Perspective container for 3D feel */
