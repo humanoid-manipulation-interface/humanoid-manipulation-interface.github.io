@@ -75,7 +75,7 @@ onUnmounted(() => {
 
                     <v-row justify="center" :class="['w-100 position-relative', bagStep === 2 ? 'mb-6' : 'mb-0']">
 
-                      <v-col cols="12" md="10" class="position-relative" :style="{ minHeight: bagStep === 2 ? '380px' : '250px', transition: 'min-height 1s ease' }">
+                      <v-col cols="12" md="10" class="position-relative" :style="{ minHeight: bagStep === 2 ? '400px' : '300px', transition: 'min-height 1s ease' }">
 
                         
 
@@ -203,11 +203,13 @@ onUnmounted(() => {
 
           
 
-                                                                maxWidth: '220px',
+                                                                maxWidth: '240px',
 
           
 
-                                                                marginRight: '-20px'
+                                                                marginRight: '-20px',
+
+                                                                cursor: bagStep === 2 ? 'default' : 'pointer'
 
           
 
@@ -219,11 +221,11 @@ onUnmounted(() => {
 
           
 
-                                                            <div class="text-subtitle-1 font-weight-bold mb-4" style="line-height: 1.2;">Our entire setup fits into a single backpack!</div>
+                                                            <div class="text-h6 font-weight-bold mb-4" style="line-height: 1.2;">Our entire setup fits into a single backpack!</div>
 
           
 
-                                                            <div class="text-caption text-primary d-flex align-center justify-center font-weight-bold">
+                                                            <div class="text-subtitle-1 text-primary d-flex align-center justify-center font-weight-bold">
 
           
 
@@ -231,7 +233,7 @@ onUnmounted(() => {
 
           
 
-                                                               <v-icon icon="mdi-cursor-default-click" size="x-small" class="ml-1"></v-icon>
+                                                               <v-icon icon="mdi-cursor-default-click" size="default" class="ml-1"></v-icon>
 
           
 
@@ -259,7 +261,9 @@ onUnmounted(() => {
 
           
 
-                                                            style="width: 300px; height: 280px;"
+                                                            style="width: 300px; height: 280px; cursor: pointer;"
+
+                                                            :style="{ cursor: bagStep === 2 ? 'default' : 'pointer' }"
 
           
 
