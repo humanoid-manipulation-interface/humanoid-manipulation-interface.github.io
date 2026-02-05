@@ -69,30 +69,30 @@ onUnmounted(() => {
                   </v-card>
               </v-col>
 
-              <!-- TWIST2 Card -->
-               <v-col cols="12" md="6" class="d-flex flex-column align-center px-4 mb-8">
-                  <v-card class="w-100 rounded-lg overflow-hidden d-flex flex-column" elevation="3">
-                      <div class="video-container bg-black position-relative">
-                          <div class="video-label bg-grey-darken-3 text-white px-3 py-1 font-weight-bold" style="position: absolute; top: 10px; left: 10px; z-index: 2; border-radius: 4px;">TWIST2</div>
-                          <video
-                              :ref="(el) => setVideoRef(el, 1)"
-                              :src="getUrl('twist2.mp4')"
-                              controls
-                              muted
-                              loop
-                              playsinline
-                              class="w-100 d-block"
-                              style="aspect-ratio: 16/9; object-fit: cover;"
-                          ></video>
-                      </div>
-                      <div class="pa-6 text-center">
-                          <div class="text-h2 font-weight-bold text-grey-darken-1 mb-1">18</div>
-                          <div class="text-subtitle-1 font-weight-medium">Valid Demos</div>
-                           <div class="text-caption text-grey-darken-1">in 15 minutes</div>
-                      </div>
-                  </v-card>
-              </v-col>
-          </v-row>
+                          <!-- Teleoperation Card -->
+                           <v-col cols="12" md="6" class="d-flex flex-column align-center px-4 mb-8">
+                              <v-card class="w-100 rounded-lg overflow-hidden d-flex flex-column" elevation="3">
+                                  <div class="video-container bg-black position-relative">
+                                      <div class="video-label bg-grey-darken-3 text-white px-3 py-1 font-weight-bold" style="position: absolute; top: 10px; left: 10px; z-index: 2; border-radius: 4px;">Teleoperation</div>
+                                      <video
+                                          :ref="(el) => setVideoRef(el, 1)"
+                                          :src="getUrl('twist2.mp4')"
+                                          controls
+                                          muted
+                                          loop
+                                          playsinline
+                                          class="w-100 d-block"
+                                          style="aspect-ratio: 16/9; object-fit: cover;"
+                                      ></video>
+                                  </div>
+                                  <div class="pa-6 text-center">
+                                      <div class="text-h2 font-weight-bold text-grey-darken-1 mb-1">18</div>
+                                      <div class="text-subtitle-1 font-weight-medium">Valid Demos</div>
+                                       <div class="text-caption text-grey-darken-1">in 15 minutes</div>
+                                  </div>
+                              </v-card>
+                            </v-col>          
+                          </v-row>
 
         </v-row>
       </v-container>
