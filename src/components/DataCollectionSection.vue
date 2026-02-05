@@ -65,7 +65,7 @@ onUnmounted(() => {
 <template>
   <v-sheet class="panel data-collection" rounded="0">
     <div ref="rootElement" class="w-100 h-100">
-      <v-container class="fill-height pb-16" style="max-width: 1200px; padding-top: clamp(1rem, 3vw, 2.5rem);">
+      <v-container class="fill-height pb-16" style="max-width: 1200px; padding-top: clamp(2rem, 5vw, 3.5rem);">
         <v-row class="w-100 flex-column align-center" justify="center">
           <v-col cols="12" :class="['text-center', bagStep === 2 ? 'mb-4 mb-md-8' : 'mb-1 mb-md-2']">
              <div class="sectionTitle font-weight-bold">Portable Data Collection</div>
