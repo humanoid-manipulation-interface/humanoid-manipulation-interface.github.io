@@ -72,22 +72,23 @@ onUnmounted(() => {
           </v-col>        
           
           <!-- Backpack Section (Animated) -->
-          <v-row justify="center" :class="['w-100 position-relative', bagStep === 2 ? 'mb-2 mb-md-6' : 'mb-0']">
-            <v-col cols="12" md="10" class="position-relative backpack-wrapper" :class="bagStep === 2 ? 'video-active' : ''">
+          <v-row justify="center" :class="['w-100 position-relative', bagStep === 2 ? 'mb-8 mb-md-6' : 'mb-0']">
+            <v-col cols="12" md="10" class="position-relative backpack-wrapper px-4" :class="bagStep === 2 ? 'video-active' : ''">
               
               <!-- Video Layer (Revealed at Step 2) -->
               <div 
-                  class="position-absolute w-100 h-100 d-flex align-center justify-center"
+                  class="position-absolute h-100 d-flex align-center justify-center"
                   :style="{ 
                       opacity: bagStep === 2 ? 1 : 0, 
                       transform: bagStep === 2 ? 'scale(1)' : 'scale(0.95)',
                       transition: 'all 1s ease-in-out',
                       zIndex: 0,
                       pointerEvents: bagStep === 2 ? 'auto' : 'none',
-                      top: 0, left: 0
+                      top: 0, left: '16px', right: '16px',
+                      width: 'auto'
                   }"
               >
-                   <div class="rounded-lg overflow-hidden elevation-2 bg-black w-100" style="max-width: 700px;">
+                   <div class="rounded-lg overflow-hidden elevation-2 bg-black" style="width: 100%; max-width: 700px;">
                       <video
                           :ref="(el) => setVideoRef(el, 2)"
                           :src="getUrl('data-collection.mp4')"
@@ -124,7 +125,7 @@ onUnmounted(() => {
                           cursor: bagStep === 2 ? 'default' : 'pointer'
                       }"
                   >
-                      <div class="text-h6 font-weight-bold mb-4" style="line-height: 1.2;">Our entire setup fits into a single backpack!</div>
+                      <div class="text-h6 font-weight-bold mb-4 backpack-text" style="line-height: 1.2;">Our entire setup fits into a single backpack!</div>
                       <div class="text-subtitle-1 text-primary d-flex align-center justify-center font-weight-bold">
                          Click to see inside
                          <v-icon icon="mdi-cursor-default-click" size="default" class="ml-1"></v-icon>
@@ -230,6 +231,10 @@ onUnmounted(() => {
   text-align: center;
   width: 100%;
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
+}
+
+.backpack-text {
   color: var(--color-heading);
 }
 
