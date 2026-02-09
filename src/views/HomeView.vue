@@ -76,8 +76,8 @@ type HeroButton = {
 }
 
 const heroButtons: HeroButton[] = [
-  { key: 'arxiv', label: 'Arxiv' },
-  { key: 'paper', label: 'Paper' },
+  { key: 'arxiv', label: 'Arxiv', href: 'http://arxiv.org/abs/2602.06643' },
+  { key: 'paper', label: 'Paper', href: `${import.meta.env.BASE_URL}humi.pdf` },
   { key: 'code', label: 'Code (Coming Soon)', disabled: true },
 ]
 
@@ -382,25 +382,44 @@ const scrollTo = (id: string) => {
   height: 1.1em;
   margin-right: 0.55rem;
   object-fit: contain;
-  opacity: 1;
+  /* Ensure icon color matches text */
+  filter: brightness(0);
+  transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
 .heroButton.v-btn:not(.v-btn--disabled) {
-  background-color: #1f6fff !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.heroButton.v-btn:not(.v-btn--disabled) .heroButtonIcon {
+  opacity: 0.7;
 }
 
 .heroButton.v-btn:not(.v-btn--disabled):hover {
-  background-color: #1a5fe3 !important;
+  background-color: #1f6fff !important;
+  color: #ffffff !important;
+}
+
+.heroButton.v-btn:not(.v-btn--disabled):hover .heroButtonIcon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
 .heroButton.v-btn.v-btn--disabled {
-  opacity: 1 !important;
-  background-color: rgba(255, 255, 255, 0.16) !important;
-  color: rgba(255, 255, 255, 0.65) !important;
+  opacity: 0.8 !important;
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  cursor: not-allowed !important;
+  pointer-events: auto !important;
+}
+
+.heroButton.v-btn.v-btn--disabled :deep(*) {
+  cursor: not-allowed !important;
 }
 
 .heroButton.v-btn.v-btn--disabled .heroButtonIcon {
-  opacity: 0.65;
+  opacity: 0.4;
 }
 
 .abstract {
