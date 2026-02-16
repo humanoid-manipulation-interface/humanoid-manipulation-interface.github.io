@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import arxivIconUrl from '@/assets/arxiv.svg'
 import githubIconUrl from '@/assets/github.svg'
 import pdfIconUrl from '@/assets/PDF.svg'
@@ -9,9 +9,38 @@ import DataCollectionSection from '@/components/DataCollectionSection.vue'
 
 const videoSrc = `${import.meta.env.BASE_URL}teaser.mp4`
 const teaserImgSrc = `${import.meta.env.BASE_URL}teaser.png`
+const sectionIds = ['hero', 'capabilities', 'generalization', 'data-collection', 'abstract', 'bibtex'] as const
 
 const activeSection = ref('hero')
 const isNavVisible = ref(false)
+const updateActiveSection = () => {
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+    activeSection.value = 'bibtex'
+    return
+  }
+
+  const anchor = window.innerHeight * 0.42
+  let bestId: (typeof sectionIds)[number] = 'hero'
+  let bestDistance = Number.POSITIVE_INFINITY
+
+  sectionIds.forEach((id) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    if (rect.top <= anchor && rect.bottom >= anchor) {
+      bestId = id
+      bestDistance = 0
+      return
+    }
+    const distance = Math.abs(rect.top - anchor)
+    if (distance < bestDistance) {
+      bestDistance = distance
+      bestId = id
+    }
+  })
+
+  activeSection.value = bestId
+}
 
 onMounted(() => {
   // 1. Navigation Visibility using IntersectionObserver on a sentinel
@@ -29,21 +58,9 @@ onMounted(() => {
   }
 
   // 2. Active Section Highlighting
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        activeSection.value = entry.target.id
-      }
-    })
-  }, {
-    rootMargin: '-45% 0px -45% 0px'
-  })
-
-  const sections = ['hero', 'capabilities', 'generalization', 'data-collection', 'abstract']
-  sections.forEach(id => {
-    const el = document.getElementById(id)
-    if (el) sectionObserver.observe(el)
-  })
+  window.addEventListener('scroll', updateActiveSection, { passive: true })
+  window.addEventListener('resize', updateActiveSection)
+  requestAnimationFrame(updateActiveSection)
 })
 
 
@@ -81,10 +98,52 @@ const heroButtons: HeroButton[] = [
   { key: 'code', label: 'Code (Coming Soon)', disabled: true },
 ]
 
+const citationBibtex = `@article{nai2026humanoid,
+  title={Humanoid Manipulation Interface: Humanoid Whole-Body Manipulation from Robot-Free Demonstrations},
+  author={Nai, Ruiqian and Zheng, Boyuan and Zhao, Junming and Zhu, Haodong and Dai, Sicong and Chen, Zunhao and Hu, Yihang and Hu, Yingdong and Zhang, Tong and Wen, Chuan and others},
+  journal={arXiv preprint arXiv:2602.06643},
+  year={2026}
+}`.trim()
+
+const copied = ref(false)
+let copiedTimer: ReturnType<typeof setTimeout> | null = null
+
+const copyCitation = async () => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(citationBibtex)
+    } else {
+      const textarea = document.createElement('textarea')
+      textarea.value = citationBibtex
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.focus()
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+    copied.value = true
+    if (copiedTimer) clearTimeout(copiedTimer)
+    copiedTimer = setTimeout(() => {
+      copied.value = false
+    }, 1200)
+  } catch {
+    copied.value = false
+  }
+}
+
+onUnmounted(() => {
+  if (copiedTimer) clearTimeout(copiedTimer)
+  window.removeEventListener('scroll', updateActiveSection)
+  window.removeEventListener('resize', updateActiveSection)
+})
+
 const scrollTo = (id: string) => {
+  activeSection.value = id
   const element = document.getElementById(id)
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
 </script>
@@ -127,6 +186,14 @@ const scrollTo = (id: string) => {
           @click="scrollTo('abstract')"
         >
           <span class="nav-text">Abstract</span>
+          <div class="nav-dot"></div>
+        </div>
+        <div
+          class="nav-item"
+          :class="{ active: activeSection === 'bibtex' }"
+          @click="scrollTo('bibtex')"
+        >
+          <span class="nav-text">Cite</span>
           <div class="nav-dot"></div>
         </div>
       </div>
@@ -234,12 +301,102 @@ const scrollTo = (id: string) => {
         ></v-img>
       </v-container>
     </v-sheet>
+
+    <v-sheet id="bibtex" class="panel citation-section pb-16" rounded="0">
+      <v-container class="citationInner">
+        <div class="citationTitle font-weight-bold">BibTeX</div>
+        <div class="citationCodeWrap">
+          <button
+            type="button"
+            class="citationCopyBtn"
+            :aria-label="copied ? 'Copied' : 'Copy BibTeX'"
+            :title="copied ? 'Copied' : 'Copy BibTeX'"
+            @click="copyCitation"
+          >
+            <v-icon :icon="copied ? 'mdi-check' : 'mdi-content-copy'" size="18"></v-icon>
+          </button>
+          <pre class="citationCode">{{ citationBibtex }}</pre>
+        </div>
+      </v-container>
+    </v-sheet>
   </div>
 </template>
 
 <style scoped>
 .teaser-image-section {
   background-color: var(--color-background);
+}
+
+.citation-section {
+  background-color: var(--color-background);
+}
+
+.citationInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.citationTitle {
+  text-align: center;
+  width: 100%;
+  font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  color: var(--color-heading);
+}
+
+.citationCodeWrap {
+  width: min(65vw, 82ch);
+  position: relative;
+}
+
+.citationCopyBtn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  z-index: 1;
+  border: 1px solid rgba(127, 127, 127, 0.36);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--color-text);
+  line-height: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.citationCodeWrap:hover .citationCopyBtn,
+.citationCodeWrap:focus-within .citationCopyBtn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.citationCopyBtn:hover,
+.citationCopyBtn:focus-visible {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.citationCode {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1rem 4.8rem 1rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(127, 127, 127, 0.28);
+  background: rgba(127, 127, 127, 0.1);
+  color: var(--color-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
 }
 
 .teaser-img {
@@ -251,6 +408,12 @@ const scrollTo = (id: string) => {
 @media (max-width: 600px) {
   .teaser-img {
     width: 95vw !important;
+  }
+  .citationCodeWrap {
+    width: 93vw;
+  }
+  .citationCode {
+    padding-right: 4.4rem;
   }
 }
 
