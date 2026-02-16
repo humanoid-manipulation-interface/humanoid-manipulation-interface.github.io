@@ -9,44 +9,17 @@ import DataCollectionSection from '@/components/DataCollectionSection.vue'
 
 const videoSrc = `${import.meta.env.BASE_URL}teaser.mp4`
 const teaserImgSrc = `${import.meta.env.BASE_URL}teaser.png`
-const sectionIds = ['hero', 'capabilities', 'generalization', 'data-collection', 'abstract', 'bibtex'] as const
 
 const activeSection = ref('hero')
 const isNavVisible = ref(false)
-const updateActiveSection = () => {
-  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
-    activeSection.value = 'bibtex'
-    return
-  }
-
-  const anchor = window.innerHeight * 0.42
-  let bestId: (typeof sectionIds)[number] = 'hero'
-  let bestDistance = Number.POSITIVE_INFINITY
-
-  sectionIds.forEach((id) => {
-    const el = document.getElementById(id)
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    if (rect.top <= anchor && rect.bottom >= anchor) {
-      bestId = id
-      bestDistance = 0
-      return
-    }
-    const distance = Math.abs(rect.top - anchor)
-    if (distance < bestDistance) {
-      bestDistance = distance
-      bestId = id
-    }
-  })
-
-  activeSection.value = bestId
-}
+let navObserver: IntersectionObserver | null = null
+let sectionObserver: IntersectionObserver | null = null
 
 onMounted(() => {
   // 1. Navigation Visibility using IntersectionObserver on a sentinel
   const triggerEl = document.getElementById('nav-trigger')
   if (triggerEl) {
-    const navObserver = new IntersectionObserver((entries) => {
+    navObserver = new IntersectionObserver((entries) => {
       // If trigger is NOT intersecting (scrolled past it), nav is visible
       if (entries[0]) {
         isNavVisible.value = !entries[0].isIntersecting
@@ -58,9 +31,36 @@ onMounted(() => {
   }
 
   // 2. Active Section Highlighting
-  window.addEventListener('scroll', updateActiveSection, { passive: true })
-  window.addEventListener('resize', updateActiveSection)
-  requestAnimationFrame(updateActiveSection)
+  const sectionRatios = new Map<string, number>()
+  sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const id = (entry.target as HTMLElement).id
+      if (entry.isIntersecting) {
+        sectionRatios.set(id, entry.intersectionRatio)
+      } else {
+        sectionRatios.delete(id)
+      }
+    })
+
+    if (sectionRatios.size === 0) return
+    let nextActive = activeSection.value
+    let maxRatio = -1
+    sectionRatios.forEach((ratio, id) => {
+      if (ratio > maxRatio) {
+        maxRatio = ratio
+        nextActive = id
+      }
+    })
+    activeSection.value = nextActive
+  }, {
+    threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+  })
+
+  const sections = ['hero', 'capabilities', 'generalization', 'data-collection', 'abstract', 'bibtex']
+  sections.forEach((id) => {
+    const el = document.getElementById(id)
+    if (el) sectionObserver?.observe(el)
+  })
 })
 
 
@@ -135,8 +135,8 @@ const copyCitation = async () => {
 
 onUnmounted(() => {
   if (copiedTimer) clearTimeout(copiedTimer)
-  window.removeEventListener('scroll', updateActiveSection)
-  window.removeEventListener('resize', updateActiveSection)
+  if (navObserver) navObserver.disconnect()
+  if (sectionObserver) sectionObserver.disconnect()
 })
 
 const scrollTo = (id: string) => {
