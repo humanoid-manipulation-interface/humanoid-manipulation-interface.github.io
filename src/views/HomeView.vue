@@ -66,7 +66,7 @@ onMounted(() => {
 
 type Author = {
   key: string
-  name: string`
+  name: string
   starred?: boolean
   href?: string
 }
