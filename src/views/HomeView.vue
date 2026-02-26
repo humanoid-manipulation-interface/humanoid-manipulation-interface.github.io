@@ -66,7 +66,7 @@ onMounted(() => {
 
 type Author = {
   key: string
-  name: string
+  name: string`
   starred?: boolean
   href?: string
 }
@@ -75,7 +75,7 @@ const authors: Author[] = [
   { key: 'ruiqian-nai', name: 'Ruiqian Nai', starred: true, href: 'https://ruiqiannai.github.io/' },
   { key: 'boyuan-zheng', name: 'Boyuan Zheng', starred: true, href: 'https://zhengbryan.github.io/' },
   { key: 'junming-zhao', name: 'Junming Zhao', starred: true, href: 'https://junmingzhao20.github.io/' },
-  { key: 'haodong-zhu', name: 'Haodong Zhu' },
+  { key: 'haodong-zhu', name: 'Haodong Zhu', href: 'https://tendourisu.github.io/' },
   { key: 'sicong-dai', name: 'Sicong Dai' },
   { key: 'zunhao-chen', name: 'Zunhao Chen' },
   { key: 'yihang-hu', name: 'Yihang Hu' },
