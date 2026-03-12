@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import arxivIconUrl from '@/assets/arxiv.svg'
 import githubIconUrl from '@/assets/github.svg'
 import pdfIconUrl from '@/assets/PDF.svg'
+import datasetIconUrl from '@/assets/dataset.svg'
 import CapabilitiesSection from '@/components/CapabilitiesSection.vue'
 import GeneralizationSection from '@/components/GeneralizationSection.vue'
 import DataCollectionSection from '@/components/DataCollectionSection.vue'
@@ -96,6 +97,7 @@ const heroButtons: HeroButton[] = [
   { key: 'arxiv', label: 'Arxiv', href: 'http://arxiv.org/abs/2602.06643' },
   { key: 'paper', label: 'Paper', href: `${import.meta.env.BASE_URL}humi.pdf` },
   { key: 'code', label: 'Code (Coming Soon)', disabled: true },
+  { key: 'dataset', label: 'Dataset', href: 'https://huggingface.co/collections/Richard-Nai/humi' },
 ]
 
 const citationBibtex = `@article{nai2026humanoid,
@@ -257,6 +259,7 @@ const scrollTo = (id: string) => {
                 aria-hidden="true"
               />
               <img v-else-if="button.key === 'code'" :src="githubIconUrl" class="heroButtonIcon" alt="" aria-hidden="true" />
+              <img v-else-if="button.key === 'dataset'" :src="datasetIconUrl" class="heroButtonIcon heroButtonIconDataset" alt="" aria-hidden="true" />
               {{ button.label }}
             </v-btn>
           </div>
@@ -548,6 +551,12 @@ const scrollTo = (id: string) => {
   /* Ensure icon color matches text */
   filter: brightness(0);
   transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.heroButtonIconDataset {
+  width: 1.14em;
+  height: 1.2em;
+  margin-right: 0.48rem;
 }
 
 .heroButton.v-btn:not(.v-btn--disabled) {
